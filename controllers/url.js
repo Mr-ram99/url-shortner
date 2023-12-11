@@ -1,14 +1,5 @@
-const express = require('express');
 const URL = require('../models/url');
 const shortUniqueID = require('short-unique-id');
-
-const handleGetAllURLs = (req, res) => {
-  URL.find({}).then((urls) => {
-    res.status(200).send(urls);
-  }).catch((err) => {
-    res.status(500).send({ message: "some error occurred. Please try after some time." });
-  })
-}
 
 const handleCreateURL = (req, res) => {
   const body = req.body;
@@ -19,14 +10,13 @@ const handleCreateURL = (req, res) => {
   const id = uid.rnd();
   URL.create({
     shortID: id,
-    redirectURL: body.redirectURL
+    redirectURL: body.redirectURL,
+    visitHistory: [],
+    createdBy: req.user._id
   }).then(() => {
-    res.status(201).send({
-      message: "short url created.",
-      shortID: id
-    });
+    return res.redirect('/');
   }).catch((err) => {
-    res.status(500).send({
+    return res.status(500).send({
       message: "some error occurred. Please try after some time.",
       error: err
     });
@@ -44,9 +34,9 @@ const handleRedirectURL = (req, res) => {
       }
     }
   }).then((entry) => {
-    res.redirect(entry.redirectURL);
+    return res.redirect(entry.redirectURL);
   }).catch((err) => {
-    res.status(500).send({
+    return res.status(500).send({
       message: "some error occurred. Please try after some time.",
       error: err
     });
@@ -54,4 +44,4 @@ const handleRedirectURL = (req, res) => {
 
 }
 
-module.exports = { handleCreateURL, handleGetAllURLs, handleRedirectURL };
+module.exports = { handleCreateURL, handleRedirectURL };

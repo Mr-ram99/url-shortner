@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | URL-Shortner</title>
+</head>
+<body>
+  <% if (locals.message) { %>
+    <p><%= message %></p>
+  <% } %>
+  <% if (locals.error) { %>
+    <p><%= error %></p>
+  <% } %>
+  <h1>URL Shortner</h1>
+  <h2>user login</h2>
+  <form action="/users/login" method="POST">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" placeholder="Enter email" /><br/><br/>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Enter password" /><br/><br/>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
