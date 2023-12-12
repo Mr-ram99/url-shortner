@@ -1,6 +1,5 @@
-const { v4: uuidv4 } = require('uuid')
 const User = require('../models/user');
-const { setUser, getUser } = require('../service/auth');
+const { setUser } = require('../service/auth');
 
 const handleUserSignup = (req, res) => {
   const { name, email, password } = req.body;
@@ -26,9 +25,8 @@ const handleUserLogin = (req, res) => {
     password
   }).then((user) => {
     if (!user) throw new error("User not found");
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie('uuid', sessionId);
+    const token = setUser(user);
+    res.cookie('authToken', token);
     return res.redirect('/');
   }).catch((err) => {
     return res.render('login', {

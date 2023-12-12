@@ -9,7 +9,9 @@ router.get('/', (req, res) => {
       urls: urls
     })
   }).catch((err) => {
-    res.status(500).send({ message: "some error occurred. Please try after some time." });
+    return res.render('home', {
+      urls: []
+    });
   })
 })
 
