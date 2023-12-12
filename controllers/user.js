@@ -26,8 +26,9 @@ const handleUserLogin = (req, res) => {
   }).then((user) => {
     if (!user) throw new error("User not found");
     const token = setUser(user);
-    res.cookie('authToken', token);
-    return res.redirect('/');
+    // res.cookie('authToken', token);
+    // return res.redirect('/');
+    return res.send({token: token});
   }).catch((err) => {
     return res.render('login', {
       error: err
